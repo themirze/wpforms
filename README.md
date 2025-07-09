@@ -4,23 +4,6 @@
 
 <h2>🚀 Installation / Kurulum</h2>
 
-<h3>📂 Dosya Kurulumu</h3>
-
-<ul>
-  <li><strong>custom.js</strong> adında bir dosya oluşturun ve script kodunuzu bu dosyaya yapıştırın.</li>
-  <li>Bu dosyayı sitenizde çağırmak için aşağıdaki HTML etiketini kullanın:</li>
-</ul>
-
-<pre><code>&lt;script src="/path/to/custom.js"&gt;&lt;/script&gt;</code></pre>
-
-<p><strong>WordPress kullanıyorsanız:</strong></p>
-
-<pre><code>
-&lt;?php
-wp_enqueue_script( 'custom-js', get_template_directory_uri() . '/js/custom.js', array(), null, true );
-?&gt;
-</code></pre>
-
 <h3>📦 Google Tag Manager Entegrasyonu</h3>
 
 <h4>🇹🇷 Türkçe</h4>
