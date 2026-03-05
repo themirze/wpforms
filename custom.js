@@ -1,6 +1,5 @@
 <script>
 (function() {
-    // Ajax Form
     var ajaxForm = document.querySelectorAll('form.wpforms-ajax-form');
     if(ajaxForm.length) {
         var origXMLHttpRequest = XMLHttpRequest;
@@ -32,6 +31,10 @@
                                         if(key) {
                                             key = key.replace(/\[|\]/g, '_').replace(/_+/g, '_').replace(/^_|_$/g, '');
                                             requestBody[key] = value;
+                                            
+                                            if (typeof value === 'string' && value.includes('@')) {
+                                                requestBody['email'] = value;
+                                            }
                                         }
                                     });
 
@@ -58,19 +61,14 @@
         };
     }
 
-    // Non Ajax Form
     var forms = document.querySelectorAll('form[id^="wpforms-form-"]:not(.wpforms-ajax-form)');
     forms.forEach(function(form) {
         var formId = form.getAttribute('data-formid');
 
         form.addEventListener('submit', function(event) {
-
-            event.preventDefault();
-
             var form = this;
             var formData = new FormData(this);
             var wpFormData = {};
-
             var errorRequired = false;
 
              formData.forEach(function (value, key) {
@@ -79,7 +77,6 @@
 
                     if(inputField) {
                         var fieldType = inputField.getAttribute('type');
-
                         var isRequiredField = inputField.classList.contains('wpforms-field-required');
 
                         if(isRequiredField) {
@@ -99,10 +96,13 @@
 
                     var formattedKey = key.replace(/\[|\]/g, '_').replace(/_+/g, '_').replace(/^_|_$/g, '');
                     wpFormData[formattedKey] = value;
+
+                    if (typeof value === 'string' && value.includes('@')) {
+                        wpFormData['email'] = value;
+                    }
                 }
              });
 
-             // required checkbox and radio button check 
              var requiredFieldSets = form.querySelectorAll('ul.wpforms-field-required');
              requiredFieldSets.forEach(function(fieldSet){
                 if(fieldSet.querySelector('input[type="radio"]') || fieldSet.querySelector('input[type="checkbox"]')) {
@@ -117,7 +117,6 @@
                 delete wpFormData['wpforms_nonce'];
                 dataLayer.push({event: 'wpform_submit', formId: formId, inputs: wpFormData});
             }
-
         });
     });
 })();
